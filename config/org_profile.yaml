@@ -1,0 +1,35 @@
+organization:
+  name: "My Bank"
+  type: "large_european_bank"
+  jurisdictions:
+    primary: [EU, PL, BE]
+    planned: [DE, ES, PT]
+  supervisory_authorities:
+    - ECB/SSM
+    - EBA
+    - KNF
+    - FSMA
+    - NBB
+  business_lines:
+    - Retail Banking
+    - Corporate Banking
+    - Investment Services
+    - Payment Services
+    - Digital Banking / BaaS partnerships
+  responsibility_areas:
+    - name: "Legal & Regulatory Affairs"
+    - name: "Compliance"
+    - name: "Risk Management"
+    - name: "AML / Financial Crime"
+    - name: "IT & Cybersecurity"
+    - name: "Operations & Payments"
+    - name: "Data Protection & Privacy"
+    - name: "Finance & Reporting"
+    - name: "Governance & Board"
+    - name: "HR & People"
+    - name: "Procurement & Third-Party Management"
+
+  keywords:
+    primary: ["bank", "credit institution", "financial institution", "payment service provider"]
+    secondary: ["fintech", "BaaS", "crypto-asset", "open banking", "instant payment"]
+    regulatory_bodies: ["ECB", "EBA", "ESMA", "KNF", "NBP", "FSMA", "NBB", "FATF"]

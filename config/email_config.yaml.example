@@ -1,0 +1,23 @@
+# --- GMAIL SMTP CONFIGURATION ---
+smtp:
+  # Adres serwera pocztowego Google (domyślnie Gmail SMTP)
+  server: "smtp.gmail.com"
+  # Standardowy port dla połączeń szyfrowanych TLS
+  port: 587
+  # Adres e-mail, z którego wysyłane będą raporty (np. konto techniczne banku)
+  sender_email: "YOUR_SENDER_EMAIL@gmail.com"
+  # Hasło do aplikacji (App Password) - specjalny 16-znakowy kod wygenerowany w Google
+  # Instrukcja generowania: https://myaccount.google.com/apppasswords
+  app_password: "YOUR_16_CHAR_APP_PASSWORD"
+
+# --- LISTA ODBIORCÓW RAPORTÓW ---
+recipients:
+  - "RECIPIENT_EMAIL_1@example.com"
+  - "RECIPIENT_EMAIL_2@example.com"
+
+# --- USTAWIENIA GENEROWANIA RAPORTU ---
+report:
+  # Okno czasowe (w dniach) dla sekcji "Zbliżające się terminy" (Deadlines)
+  approaching_deadlines_window_days: 90
+  # Limit dokumentów w jednym e-mailu, aby uniknąć przepełnienia skrzynki
+  max_items_in_email: 20

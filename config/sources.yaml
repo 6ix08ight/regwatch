@@ -1,0 +1,232 @@
+# --- EU LEVEL ---
+- name: "EUR-Lex CELLAR API"
+  url: "https://publications.europa.eu/webapi/rdf/sparql"
+  strategy: "api"
+  lang: "multi"
+  content_type: "legal_acts"
+  country: "EU"
+  enabled: true
+  notes: "Primary EU legal source via SPARQL"
+
+- name: "EUR-Lex OJ Direct Access"
+  url: "https://eur-lex.europa.eu/oj/direct-access.html"
+  strategy: "requests"
+  lang: "multi"
+  content_type: "official_journal"
+  country: "EU"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "EC DG FISMA News"
+  url: "https://finance.ec.europa.eu/finance-news-hub_en"
+  strategy: "requests"
+  lang: "en"
+  content_type: "news"
+  country: "EU"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "EC DG FISMA Consultations"
+  url: "https://finance.ec.europa.eu/regulation-and-supervision/consultation_en"
+  strategy: "requests"
+  lang: "en"
+  content_type: "consultations"
+  country: "EU"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "EBA"
+  url: "https://www.eba.europa.eu/rss-feeds"
+  strategy: "rss"
+  lang: "en"
+  content_type: "rss_feed"
+  country: "EU"
+  enabled: true
+
+- name: "ECB Banking Supervision"
+  url: "https://www.bankingsupervision.europa.eu"
+  strategy: "requests"
+  lang: "en"
+  content_type: "supervision_news"
+  country: "EU"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "ESMA"
+  url: "https://www.esma.europa.eu"
+  strategy: "requests"
+  lang: "en"
+  content_type: "securities_market_news"
+  country: "EU"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "EIOPA"
+  url: "https://www.eiopa.europa.eu"
+  strategy: "requests"
+  lang: "en"
+  content_type: "insurance_pensions_news"
+  country: "EU"
+  enabled: false
+  notes: "Bancassurance-relevant only; Selectors not yet configured"
+
+- name: "FATF"
+  url: "https://www.fatf-gafi.org/en/the-fatf/news.html"
+  strategy: "requests"
+  lang: "en"
+  content_type: "aml_news"
+  country: "INTL"
+  enabled: false
+  notes: "May need custom headers to avoid 403; Selectors not yet configured"
+
+# --- POLAND ---
+- name: "ISAP API"
+  url: "https://isap.sejm.gov.pl/api/isap/"
+  strategy: "api"
+  lang: "pl"
+  content_type: "legal_acts"
+  country: "PL"
+  enabled: true
+
+- name: "KNF"
+  url: "https://www.knf.gov.pl"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "supervision_news"
+  country: "PL"
+  enabled: false
+  notes: "PL only, EN broken; Selectors not yet configured"
+
+- name: "NBP"
+  url: "https://www.nbp.pl"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "central_bank_news"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "UOKiK"
+  url: "https://uokik.gov.pl/aktualnosci"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "consumer_protection"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "UODO"
+  url: "https://uodo.gov.pl/pl/p/aktualnosci"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "data_protection"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "GIIF"
+  url: "https://www.gov.pl/web/finanse/generalny-inspektor-informacji-finansowej"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "aml_news"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "Polish Ministry of Finance"
+  url: "https://www.gov.pl/web/finanse"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "finance_news"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "President of Poland"
+  url: "https://www.prezydent.pl/prawo/ustawy-podpisane"
+  strategy: "requests"
+  lang: "pl"
+  content_type: "signed_acts"
+  country: "PL"
+  enabled: false
+  notes: "Selectors not yet configured"
+
+- name: "RCL Legislacja"
+  url: "https://legislacja.rcl.gov.pl/"
+  strategy: "manual"
+  lang: "pl"
+  content_type: "legislative_process"
+  country: "PL"
+  enabled: false
+  notes: "BLOCKED by robots.txt"
+
+- name: "Sejm Legislative Process"
+  url: "https://www.sejm.gov.pl/Sejm10.nsf/proces.xsp"
+  strategy: "manual"
+  lang: "pl"
+  content_type: "legislative_process"
+  country: "PL"
+  enabled: false
+  notes: "BLOCKED by robots.txt"
+
+# --- BELGIUM ---
+- name: "NBB Financial Oversight"
+  url: "https://www.nbb.be/en/financial-supervision-and-resolution/cross-cutting-and-international-aspects/news-and"
+  strategy: "requests"
+  lang: "en"
+  content_type: "supervision_news"
+  country: "BE"
+  enabled: true
+  selectors:
+    item: "a.node-supervision-update-teaser"
+    title: ".node-supervision-update-teaser__label"
+    date: "time"
+    link_attr: "href"
+
+- name: "FSMA News"
+  url: "https://www.fsma.be/en/news-articles"
+  strategy: "requests"
+  lang: "en"
+  content_type: "financial_services_news"
+  country: "BE"
+  enabled: true
+  selectors:
+    item: "a.news-teaser"
+    title: ".news-teaser__title"
+    date: ".datetime"
+    link_attr: "href"
+
+- name: "FSMA RSS"
+  url: "https://www.fsma.be/en/news-articles/rss.xml"
+  strategy: "rss"
+  lang: "en"
+  content_type: "rss_feed"
+  country: "BE"
+  enabled: true
+
+- name: "Febelfin"
+  url: "https://www.febelfin.be/en/press-room"
+  strategy: "requests"
+  lang: "en"
+  content_type: "banking_community_news"
+  country: "BE"
+  enabled: false
+  notes: "Secondary source; Selectors not yet configured"
+
+- name: "Belgian Parliament"
+  url: "https://www.dekamer.be/kvvcr/index.cfm"
+  strategy: "requests"
+  lang: "multi"
+  content_type: "legislative_process"
+  country: "BE"
+  enabled: false
+  notes: "NL/FR only; Selectors not yet configured"
+
+- name: "Belgian Official Gazette"
+  url: "http://www.ejustice.just.fgov.be/cgi/welcome.pl"
+  strategy: "manual"
+  lang: "multi"
+  content_type: "official_gazette"
+  country: "BE"
+  enabled: false
+  notes: "BLOCKED by robots.txt"

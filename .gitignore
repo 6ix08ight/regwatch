@@ -1,0 +1,25 @@
+# Sensitive and local configurations
+.env
+.env.*
+config/email_config.yaml
+regwatch_brief_private.md
+
+# Python caches and compiles
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Databases
+regwatch.db
+*.db
+*.sqlite3
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Local reporting outputs
+output/

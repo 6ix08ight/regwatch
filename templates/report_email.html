@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .header { background-color: #1a237e; color: white; padding: 20px; text-align: center; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+        .summary-box { background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 5px solid #1a237e; }
+        .section-title { color: #1a237e; border-bottom: 2px solid #1a237e; padding-bottom: 5px; margin-top: 30px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; color: #1a237e; }
+
+        /* Urgency Badges */
+        .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85em; text-transform: uppercase; }
+        .badge-high { background-color: #ffebee; color: #c62828; }
+        .badge-medium { background-color: #fff3e0; color: #ef6c00; }
+        .badge-low { background-color: #e8f5e9; color: #2e7d32; }
+
+        /* Deadline Colors */
+        .deadline-red { color: #c62828; font-weight: bold; }
+        .deadline-amber { color: #ef6c00; font-weight: bold; }
+        .deadline-yellow { color: #f9a825; font-weight: bold; }
+
+        .act-card { margin-bottom: 25px; padding: 15px; border: 1px solid #eee; border-radius: 5px; }
+        .act-title { font-weight: bold; font-size: 1.1em; color: #1a237e; text-decoration: none; }
+        .sub-info { font-size: 0.9em; color: #666; margin: 5px 0; }
+        
+        .checklist { background-color: #fffde7; padding: 10px; border-radius: 4px; margin-top: 10px; border: 1px dashed #fbc02d; }
+        .checklist-item { list-style-type: none; margin: 5px 0; font-size: 0.9em; }
+        .checklist-item::before { content: "☐ "; }
+
+        .footer { font-size: 0.8em; color: #777; margin-top: 40px; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+        .source-status { display: inline-block; margin: 0 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏛️ RegWatch Weekly</h1>
+            <p>{{ date_range }}</p>
+        </div>
+
+        {% if is_zero_report %}
+        <div class="summary-box" style="background-color: #e8f5e9; border-left-color: #2e7d32;">
+            <h3 style="color: #2e7d32; margin-top: 0;">✅ No New Regulatory Changes</h3>
+            <p>Our scanners have reviewed {{ stats.total_sources }} official sources. There are no new relevant regulatory acts requiring immediate action for our organization's business lines.</p>
+        </div>
+        {% else %}
+        <div class="summary-box">
+            <h3 style="margin-top: 0;">📊 Executive Summary</h3>
+            <p><strong>Sources Checked:</strong> {{ stats.total_sources }} | <strong>New Acts:</strong> {{ stats.new_count }}</p>
+            <p><strong>Urgency Breakdown:</strong> 
+                <span class="badge badge-high">High: {{ stats.high_urgency }}</span> 
+                <span class="badge badge-medium">Medium: {{ stats.medium_urgency }}</span> 
+                <span class="badge badge-low">Low: {{ stats.low_urgency }}</span>
+            </p>
+        </div>
+        {% endif %}
+
+        {% if deadlines %}
+        <h2 class="section-title">⏰ Approaching Deadlines</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Act</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in deadlines %}
+                <tr>
+                    <td><a href="{{ d.url }}" class="act-title" style="font-size: 0.95em;">{{ d.title }}</a></td>
+                    <td class="deadline-{{ d.status_color }}">{{ d.deadline_date }}</td>
+                    <td>{{ d.vacatio_legis_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if not is_zero_report %}
+        <h2 class="section-title">📋 New This Week</h2>
+        {% for urgency in ['HIGH', 'MEDIUM', 'LOW'] %}
+            {% set items = new_acts | selectattr("urgency", "equalto", urgency) | list %}
+            {% if items %}
+                <h3 style="margin-top: 20px;">Priority: {{ urgency }}</h3>
+                {% for act in items %}
+                <div class="act-card">
+                    <a href="{{ act.url }}" class="act-title">{{ act.title }}</a>
+                    <div class="sub-info">Source: {{ act.source }} | Published: {{ act.publication_date }} | Jurisdiction: {{ act.jurisdictions | join(', ') }}</div>
+                    <p>{{ act.summary_en }}</p>
+                    
+                    {% if act.compliance_checklist %}
+                    <div class="checklist">
+                        <strong>✅ Compliance Readiness Checklist:</strong>
+                        <ul style="padding-left: 0;">
+                            {% for step in act.compliance_checklist %}
+                            <li class="checklist-item">{{ step }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        {% if flagged %}
+        <h2 class="section-title">⚠️ Flagged for Review</h2>
+        <ul>
+            {% for f in flagged %}
+            <li><strong>{{ f.title }}</strong>: {{ f.error or "Analysis failed/Needs human review" }} (<a href="{{ f.url }}">Source Link</a>)</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="footer">
+            <p><strong>Source Connectivity Status:</strong></p>
+            <p>
+                {% for s in source_status %}
+                <span class="source-status">{{ s.icon }} {{ s.name }}</span>
+                {% endfor %}
+            </p>
+            <p>Generated by RegWatch Engine at {{ timestamp }}</p>
+            <p><em>Confidential Internal Financial Services Report</em></p>
+        </div>
+    </div>
+</body>
+</html>
